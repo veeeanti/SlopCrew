@@ -40,7 +40,7 @@ public class AdminController(
         }));
     }
 
-    // This is bad but I cbf to google the "right way"
+    // Basic admin authentication - should be improved with proper auth middleware
     private bool IsAdmin() {
         var auth = this.Request.Headers["Authorization"];
         var secret = options.Value.AdminSecret;

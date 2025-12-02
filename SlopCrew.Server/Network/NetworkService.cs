@@ -56,7 +56,7 @@ public class NetworkService : BackgroundService {
         this.callback = this.StatusCallback;
         utils.SetStatusCallback(this.callback);
 
-        // TODO
+        // Set up server address to listen on all interfaces
         var address = new Address();
         address.SetAddress("::0", this.serverOptions.Port);
 

@@ -4,8 +4,8 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 namespace SlopCrew.Server.Database;
 
 public class SlopDbContext : DbContext {
-    public DbSet<User> Users { get; set; } = null!;
-    public DbSet<Crew> Crews { get; set; } = null!;
+    public DbSet<User> Users { get; set; } = default!;
+    public DbSet<Crew> Crews { get; set; } = default!;
 
     public SlopDbContext() { }
     public SlopDbContext(DbContextOptions<SlopDbContext> options) : base(options) { }

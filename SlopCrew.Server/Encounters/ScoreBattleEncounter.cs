@@ -102,12 +102,15 @@ public class ScoreBattleEncounter : Encounter {
     }
 
     private void SendEnd() {
+        // Determine if encounter ended early (before full time elapsed)
+        bool endedEarly = this.timer.Interval > (Constants.SimpleEncounterStartTime + this.length) * 1000;
+
         if (this.one.IsConnected()) {
             this.one.SendPacket(new ClientboundMessage {
                 EncounterEnd = new ClientboundEncounterEnd {
-                    Type = EncounterType.ComboBattle,
+                    Type = EncounterType.ScoreBattle,
                     Simple = new SimpleEncounterEndData {
-                        EndedEarly = false, // TODO
+                        EndedEarly = endedEarly,
                         YourScore = this.oneScore,
                         OpponentScore = this.twoScore
                     }
@@ -118,9 +121,9 @@ public class ScoreBattleEncounter : Encounter {
         if (this.two.IsConnected()) {
             this.two.SendPacket(new ClientboundMessage {
                 EncounterEnd = new ClientboundEncounterEnd {
-                    Type = EncounterType.ComboBattle,
+                    Type = EncounterType.ScoreBattle,
                     Simple = new SimpleEncounterEndData {
-                        EndedEarly = false, // TODO
+                        EndedEarly = endedEarly,
                         YourScore = this.twoScore,
                         OpponentScore = this.oneScore
                     }

@@ -89,11 +89,16 @@ public class UserService(IOptions<AuthOptions> options, SlopDbContext dbContext)
     }
 
     public async Task<string> RegenerateGameToken(User user) {
-        // Dear UUID spec:
-        // "Do not assume that UUIDs are hard to guess; they should not be used as security capabilities
-        // (identifiers whose mere possession grants access), for example."
-        // I don't care.
-        var token = Guid.NewGuid().ToString();
+        // Generate a cryptographically secure random token
+        // Using a longer token with URL-safe characters for better security
+        var randomBytes = new byte[32];
+        using (var rng = System.Security.Cryptography.RandomNumberGenerator.Create()) {
+            rng.GetBytes(randomBytes);
+        }
+        var token = Convert.ToBase64String(randomBytes)
+            .TrimEnd('=') // Remove padding for URL safety
+            .Replace('+', '-') // URL-safe character
+            .Replace('/', '_'); // URL-safe character
         user.GameToken = token;
         await dbContext.SaveChangesAsync();
         return token;

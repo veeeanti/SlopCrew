@@ -50,7 +50,8 @@ public class EncounterService : IDisposable {
         Encounter encounter = type switch {
             EncounterType.ScoreBattle => new ScoreBattleEncounter(one, two, this.options.ScoreBattleLength),
             EncounterType.ComboBattle => new ComboBattleEncounter(one, two, this.options.ComboBattleLength, this.options.ComboBattleGrace),
-            _ => throw new Exception("TODO")
+            EncounterType.Race => new RaceEncounter(new List<NetworkClient> { one, two }, one.Stage ?? 0, this.RaceConfigService.GetRaceConfig(one.Stage ?? 0)),
+            _ => throw new NotSupportedException($"Encounter type {type} is not supported for simple encounters")
         };
         this.encounters.Add(encounter);
         return encounter;
