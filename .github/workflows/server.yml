@@ -38,7 +38,7 @@ jobs:
               run: dotnet build SlopCrew.Server --configuration Release --no-restore
 
             - name: Upload artifacts
-              uses: actions/upload-artifact@v3
+              uses: actions/upload-artifact@v4
               with:
                   name: server-windows
                   path: ./SlopCrew.Server/bin/Release/net7.0
